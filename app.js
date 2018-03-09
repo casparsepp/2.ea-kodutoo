@@ -57,7 +57,15 @@ TYPER.prototype = {
     this.word.Draw()
 
     window.addEventListener('keypress', this.keyPressed.bind(this))
+	this.startTime = new Date().getTime()
+	window.setInterval(this.loop.bind(this), 1)
   },
+  
+  loop: function() {
+	  this.word.Draw()
+	  const currentTime = new Date().getTime()
+	  this.counter = currentTime - this.startTime
+  },  
 
   generateWord: function () {
     const generatedWordLength = this.wordMinLength + parseInt(this.guessedWords / 5)
@@ -99,7 +107,15 @@ Word.prototype = {
     this.ctx.textAlign = 'center'
     this.ctx.font = '140px Courier'
     this.ctx.fillText(this.left, this.canvas.width / 2, this.canvas.height / 2)
-  },
+	
+	this.ctx.textAlign = 'center'
+    this.ctx.font = '140px Arial'
+    this.ctx.fillText(typer.counter, 300, 300)
+	
+	this.ctx.textAlign = 'center'
+    this.ctx.font = '140px Arial'
+    this.ctx.fillText(typer.guessedWords, 500, 500)
+  },//hetkel kuvab nii kulunud aega kui ka skoori
 
   removeFirstLetter: function () {
     this.left = this.left.slice(1)
